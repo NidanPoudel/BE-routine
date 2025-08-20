@@ -16,8 +16,9 @@ COPY backend/ ./
 # Copy frontend build to backend static files
 COPY --from=frontend-build /app/frontend/dist ./public
 
-# Set environment to production
+# Set environment variables for production
 ENV NODE_ENV=production
+ENV PORT=7102
 
 EXPOSE 7102
 

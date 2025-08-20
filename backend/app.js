@@ -23,7 +23,21 @@
  */
 
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+const fs = require('fs');
+
+// Only load .env file if it exists (for local development)
+const envPath = path.resolve(__dirname, '../.env');
+if (fs.existsSync(envPath)) {
+  require('dotenv').config({ path: envPath });
+} else {
+  // In production, environment variables are set by the platform
+  console.log('No .env file found - using platform environment variables');
+}
+
+// Ensure NODE_ENV defaults to production if not set
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'production';
+}
 
 console.log('Environment loaded:');
 console.log('MongoDB URI:', process.env.MONGODB_ATLAS_URI ? 'Connected' : 'Missing');
