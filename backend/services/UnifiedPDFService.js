@@ -1149,11 +1149,11 @@ class UnifiedPDFService {
    */
   _generateRoomLookupTable(doc) {
     // Move down from the routine grid
-    doc.moveDown(1.5);
+    doc.moveDown(3);
     
     // Header
-    doc.fontSize(9).font('Helvetica-Bold')
-       .text('# ALL LECTURE ROOMS ARE IN B-BLOCK', { align: 'left' });
+    // doc.fontSize(9).font('Helvetica-Bold')
+    //    .text('# ALL LECTURE ROOMS ARE IN B-BLOCK', { align: 'left' });
     
     doc.moveDown(0.3);
     

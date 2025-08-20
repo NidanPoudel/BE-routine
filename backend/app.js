@@ -218,8 +218,17 @@ routeHandler('/api/health', './routes/health');
 // PDF routes consolidated into /api/routines - removed separate /api/pdf
 routeHandler('/api/debug', './routes/debug');
 
-// Base route
+// Serve static files from React build (for production)
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'public')));
+}
+
+// Base route - API info for development, React app for production
 app.get('/', (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    return res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  }
+  
   res.json({
     message: 'IOE Pulchowk Campus Routine Management System API',
     version: '2.0.0',
@@ -258,6 +267,21 @@ app.get('/', (req, res) => {
     }
   });
 });
+
+// Handle React Router in production - catch all non-API routes
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    // Don't serve React app for API routes
+    if (req.originalUrl.startsWith('/api')) {
+      return res.status(404).json({
+        success: false,
+        message: 'API endpoint not found',
+        path: req.originalUrl
+      });
+    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+}
 
 // 404 handler for undefined routes
 app.use((req, res, next) => {
