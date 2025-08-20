@@ -216,7 +216,7 @@ routeHandler('/api/programs', './routes/programs');
 routeHandler('/api/subjects', './routes/subjects');
 routeHandler('/api/rooms', './routes/rooms');
 routeHandler('/api/time-slots', './routes/timeSlots');
-routeHandler('/api/timeslots', './routes/timeslots'); // Legacy support
+routeHandler('/api/timeslots', './routes/timeslots'); // Legacy route
 routeHandler('/api/routines', './routes/routine');
 routeHandler('/api/routine-slots', './routes/routineSlots');
 routeHandler('/api/program-semesters', './routes/programSemesters');
@@ -285,14 +285,10 @@ app.get('/', (req, res) => {
 
 // Handle React Router in production - catch all non-API routes
 if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
+  app.use((req, res, next) => {
     // Don't serve React app for API routes
     if (req.originalUrl.startsWith('/api')) {
-      return res.status(404).json({
-        success: false,
-        message: 'API endpoint not found',
-        path: req.originalUrl
-      });
+      return next(); // Let it go to 404 handler
     }
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
