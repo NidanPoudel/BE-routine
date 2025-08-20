@@ -216,6 +216,7 @@ routeHandler('/api/programs', './routes/programs');
 routeHandler('/api/subjects', './routes/subjects');
 routeHandler('/api/rooms', './routes/rooms');
 routeHandler('/api/time-slots', './routes/timeSlots');
+routeHandler('/api/timeslots', './routes/timeslots'); // Legacy support
 routeHandler('/api/routines', './routes/routine');
 routeHandler('/api/routine-slots', './routes/routineSlots');
 routeHandler('/api/program-semesters', './routes/programSemesters');

@@ -7,7 +7,7 @@ const express = require('express');
 const router = express.Router();
 
 // Redirect all timeslots requests to time-slots
-router.all('*', (req, res) => {
+router.use((req, res) => {
   const newPath = req.originalUrl.replace('/api/timeslots', '/api/time-slots');
   res.redirect(301, newPath);
 });
